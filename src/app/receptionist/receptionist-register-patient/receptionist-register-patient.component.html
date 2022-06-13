@@ -1,0 +1,427 @@
+<div class="container scroll" style="border-top: 1000px">
+  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+    <form
+      (submit)="onRegister(patientRegistrationForm)"
+      #patientRegistrationForm="ngForm"
+    >
+      <!-- Start - Patient Information Panel -->
+      <div class="container border border-secondary divPatientInfo">
+        <p class="font-weight-bold">Patient Information</p>
+        <!-- Start - Patient Registration Number row -->
+        <div class="form-group row">
+          <label for="patientRegistrationNumber" class="col-sm-4 col-form-label"
+            >Patient Registration Number:</label
+          >
+          <div class="col-sm-3">
+            <input
+              style="font-weight: bold"
+              ngModel
+              #patientRegistrationNumber="ngModel"
+              type="text"
+              readonly
+              class="form-control-plaintext"
+              id="patientRegistrationNumber"
+              name="patientRegistrationNumber"
+              [(ngModel)]="patientRegNo"
+            />
+          </div>
+          <!-- <div class="col-md-3 mb-3">
+            <span (click)="generateRegNo()" class="btn btn-sm btn-primary">Generate Reg.No.</span>
+          </div> -->
+        </div>
+        <!-- End - Patient Registration Number row -->
+
+        <!-- Start - First Name, Last Name, Gender -->
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="patientFirstName">First name</label>
+            <input
+              ngModel
+              #patientFirstName="ngModel"
+              pattern="[a-zA-Z\s]+"
+              type="text"
+              class="form-control"
+              id="patientFirstName"
+              name="patientFirstName"
+              placeholder="First name"
+              required
+            />
+            <div
+              class="alert alert-danger"
+              *ngIf="!patientFirstName.valid && patientFirstName.touched"
+            >
+              Enter Valid First Name
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="patientLastName">Last name</label>
+            <input
+              ngModel
+              #patientLastName="ngModel"
+              pattern="[a-zA-Z\s]+"
+              type="text"
+              class="form-control"
+              id="patientLastName"
+              name="patientLastName"
+              placeholder="Last name"
+              required
+            />
+            <div
+              class="alert alert-danger"
+              *ngIf="!patientLastName.valid && patientLastName.touched"
+            >
+              Enter Valid Last Name
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3" style="padding-left: 27px">
+            <label>Gender</label>
+            <div style="padding-top: 7px">
+              <!-- <div class="custom-control custom-radio custom-control-inline">
+                <input  [(ngModel)]="gender" type="radio" id="male" name="gender" class="custom-control-input">
+                <label class="custom-control-label" for="male">Male</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input   type="radio" id="female" name="gender" class="custom-control-input">
+                <label class="custom-control-label" for="female">Female</label>
+              </div> -->
+              <mat-radio-group
+                ngModel
+                #genderPatient="ngModel"
+                name="genderPatient"
+                required
+              >
+                <mat-radio-button value="Male">Male</mat-radio-button>
+                <mat-radio-button value="Female">Female</mat-radio-button>
+              </mat-radio-group>
+              <div
+                class="alert alert-danger"
+                *ngIf="!genderPatient.valid && genderPatient.touched"
+              >
+                Please select gender
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End - First Name, Last Name, Gender -->
+
+        <!-- Start - Address, City, District -->
+        <div class="form-row" style="padding-bottom: 10px">
+          <div class="col-md-7 mb-3">
+            <label for="patientAddress">Address</label>
+            <input
+              ngModel
+              #patientAddress="ngModel"
+              type="text"
+              class="form-control"
+              id="patientAddress"
+              name="patientAddress"
+              placeholder="Address"
+              required
+            />
+            <div
+              class="alert alert-danger"
+              *ngIf="!patientAddress.valid && patientAddress.touched"
+            >
+              Enter an address
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="patientCity">City</label>
+            <input
+              ngModel
+              #patientCity="ngModel"
+              type="text"
+              class="form-control"
+              id="patientCity"
+              name="patientCity"
+              placeholder="City"
+              required
+            />
+            <div
+              class="alert alert-danger"
+              *ngIf="!patientCity.valid && patientCity.touched"
+            >
+              Enter a city
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label for="patientDistrict">District</label>
+            <select
+              ngModel
+              #patientDistrict="ngModel"
+              class="custom-select"
+              name="patientDistrict"
+              id="patientDistrict"
+              required
+            >
+              <option value="">Choose...</option>
+
+              <option value="NGPS">North 24 parganas</option>
+              <option value="Kolkata">Kolkata</option>
+              <option value="Nadia">Nadia</option>
+            </select>
+          </div>
+        </div>
+        <!-- End - Address, City, District -->
+
+        <!-- Start - NIC, Date of Birth, Maritall Status-->
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="patientAadhar">Aadhar</label>
+            <div style="padding-top: 10px">
+              <input
+                ngModel
+                #patientNIC="ngModel"
+                pattern="(^[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}$"
+                type="text"
+                class="form-control"
+                id="patientAadhar"
+                name="patientAadhar"
+                placeholder="Aadhar"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="!patientNIC.valid && patientNIC.touched"
+              >
+                Enter Valid Aadhar
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3" style="padding-left: 50px">
+            <label for="">Date of Birth</label>
+            <!-- <mat-form-field >
+                 <input matInput ngModel #patientDOB="ngModel" name="patientDOB" [matDatepicker]="picker" placeholder="Choose a date">
+                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field> -->
+            <mat-form-field>
+              <input
+                matInput
+                ngModel
+                #patientDOB="ngModel"
+                name="patientDOB"
+                type="date"
+                required
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="!patientDOB.valid && patientDOB.touched"
+              >
+                Enter Date of Birth
+              </div>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-3" style="padding-left: 27px">
+            <label for="maritalStatus">Marital Status</label><br />
+
+            <select
+              ngModel
+              #maritalStatus="ngModel"
+              class="custom-select"
+              id="maritalStatus"
+              name="maritalStatus"
+              required
+            >
+              <option value="">Choose...</option>
+              <option value="Married">Married</option>
+              <option value="Unmarried">Unmarried</option>
+            </select>
+            <div
+              class="alert alert-danger"
+              *ngIf="!maritalStatus.valid && maritalStatus.touched"
+            >
+              Select marital status
+            </div>
+          </div>
+        </div>
+        <!-- End - NIC, Date of Birth, Maritall Status-->
+
+        <!-- Start - Contact Number, Email-->
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="patientContactNumber">Contact Number</label>
+            <div style="padding-top: 10px">
+              <input
+                ngModel
+                #patientContactNumber="ngModel"
+                pattern="\d{10}"
+                type="text"
+                class="form-control"
+                id="patientContactNumber"
+                name="patientContactNumber"
+                placeholder="Contact Number"
+                required
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="
+                  !patientContactNumber.valid && patientContactNumber.touched
+                "
+              >
+                Enter a valid contact number
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="patientEmail">Email</label>
+            <div style="padding-top: 10px">
+              <input
+                ngModel
+                #patientEmail="ngModel"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                type="text"
+                class="form-control"
+                id="patientEmail"
+                name="patientEmail"
+                placeholder="Email"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="!patientEmail.valid && patientEmail.touched"
+              >
+                Enter a valid email address
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End - Contact Number, Email-->
+      </div>
+      <!-- End - Patient Information Panel -->
+
+      <!-- Start - Guardian Information Panel -->
+      <div class="container border border-secondary divGuardianInfo">
+        <p class="font-weight-bold">Responsible Party:</p>
+        <!-- Start - Responsible party type -->
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-sm-2 col-form-label"
+            >Responsible Party</label
+          >
+          <div class="col-sm-10" style="padding-top: 7px">
+            <!-- <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="self" name="guardianType" class="custom-control-input">
+              <label class="custom-control-label" for="self">Self</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="parent" name="guardianType" class="custom-control-input">
+              <label class="custom-control-label" for="parent">Parent</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="guardian" name="guardianType" class="custom-control-input">
+                <label class="custom-control-label" for="guardian">Guardian</label>
+            </div> -->
+            <mat-radio-group
+              ngModel
+              (change)="
+                onChangeGuardianTypeRadioButton($event, patientRegistrationForm)
+              "
+              #guardianType="ngModel"
+              name="guardianType"
+            >
+              <mat-radio-button value="Self">Self</mat-radio-button>
+              <mat-radio-button value="Parent">Parent</mat-radio-button>
+              <mat-radio-button value="Guardian">Guardian</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- End - Responsible party type -->
+        <!-- Start - First Name, Last Name, Gender -->
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="guardianFirstName">First name</label>
+            <input
+              ngModel
+              #guardianFirstName="ngModel"
+              type="text"
+              class="form-control"
+              id="guardianFirstName"
+              name="guardianFirstName"
+              placeholder="First name"
+              required
+            />
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="guardianLastName">Last name</label>
+            <input
+              ngModel
+              #guardianLastName="ngModel"
+              type="text"
+              class="form-control"
+              id="guardianLastName"
+              name="guardianLastName"
+              placeholder="Last name"
+              required
+            />
+          </div>
+
+          <div class="col-md-4 mb-3" style="padding-left: 27px">
+            <label>Gender</label>
+            <div style="padding-top: 7px">
+              <!-- <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="guardianMale" name="guardianGender" class="custom-control-input">
+              <label class="custom-control-label" for="guardianMale">Male</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="guardianFemale" name="guardianGender" class="custom-control-input">
+              <label class="custom-control-label" for="guardianFemale">Female</label>
+            </div> -->
+              <mat-radio-group
+                ngModel
+                #genderGuardian="ngModel"
+                name="genderGuardian"
+              >
+                <mat-radio-button value="Male">Male</mat-radio-button>
+                <mat-radio-button value="Female">Female</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+        <!-- End - First Name, Last Name, Gender -->
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="guardianAadhar">Aadhar</label>
+            <input
+              ngModel
+              #guardianAadhar="ngModel"
+              type="text"
+              class="form-control"
+              id="guardianAadhar"
+              name="guardianaadhar"
+              placeholder="Aadhar"
+              required
+            />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="guardianContactNumber">Contact Number</label>
+            <input
+              ngModel
+              #guardianContactNumber="ngModel"
+              type="text"
+              class="form-control"
+              id="guardianContactNumber"
+              name="guardianContactNumber"
+              placeholder="Contact Number"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <!-- End - Guardian Information Panel -->
+
+      <br />
+      <button class="btn btn-success" type="submit" style="margin-left: 250px">
+        Register Patient
+      </button>
+      <button class="btn btn-primary" style="margin-left: 50px">
+        Clear Fields
+      </button>
+      <br />
+      <br />
+    </form>
+  </cdk-virtual-scroll-viewport>
+</div>
